@@ -28,7 +28,7 @@ async function createPoetry() {
     }
 
     try {
-        const response = await fetch(`/.netlify/functions/generatePoetry?mood=${encodeURIComponent(mood)}`);
+        const response = await fetch(`https://pbkv.netlify.app/.netlify/functions/generatePoetry?mood=${encodeURIComponent(mood)}`);
         const data = await response.json();
 
         if (data.error) throw new Error(data.error);
