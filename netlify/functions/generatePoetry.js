@@ -2,23 +2,36 @@ const fetch = require("node-fetch");
 
 exports.handler = async (event) => {
     try {
+        // Extract the mood from query parameters
         const mood = event.queryStringParameters.mood;
+
         if (!mood) {
             console.log("No mood provided.");
-            return { statusCode: 400, body: JSON.stringify({ error: "Mood is required" }) };
+            return {
+                statusCode: 400,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Mood is required" })
+            };
         }
 
+        // Check if API key is available
         const API_KEY = process.env.OPENAI_API_KEY;
+
         if (!API_KEY) {
             console.log("API Key is missing.");
-            return { statusCode: 500, body: JSON.stringify({ error: "API Key missing" }) };
+            return {
+                statusCode: 500,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "API Key missing" })
+            };
         }
 
+        // Call OpenAI's API
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
+                Authorization: `Bearer ${API_KEY}`
             },
             body: JSON.stringify({
                 model: "gpt-4-turbo",
@@ -31,27 +44,31 @@ exports.handler = async (event) => {
         });
 
         const data = await response.json();
-        console.log(data);  // Log the response from OpenAI for debugging
+        console.log("OpenAI Response:", data); // Debugging log
 
-        if (!data.choices || data.choices.length === 0 || !data.choices[0].message || !data.choices[0].message.content) {
+        // Validate OpenAI response
+        if (
+            !data.choices ||
+            data.choices.length === 0 ||
+            !data.choices[0].message ||
+            !data.choices[0].message.content
+        ) {
             throw new Error("Invalid response from OpenAI.");
         }
 
+        // Return the generated poem
         return {
             statusCode: 200,
-headers: {
-        "Content-Type": "application/json"
-    },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ poem: data.choices[0].message.content })
         };
 
     } catch (error) {
-        console.error(error);  // Log the error for debugging
-headers: {
-        "Content-Type": "application/json"
-    },
+        console.error("Error:", error); // Debugging log for the error
+
         return {
             statusCode: 500,
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ error: error.message })
         };
     }
