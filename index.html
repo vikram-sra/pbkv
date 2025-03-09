@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjabi Poetry Generator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #5a3e36; /* Brown background */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dropdown-container {
+            margin-bottom: 10px;
+        }
+
+        select {
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #ffcc00;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+        }
+
+        #timeline {
+            margin-top: 20px;
+            border-top: 2px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .thought-entry {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .timestamp {
+            font-size: small;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Punjabi Poetry Generator</h2>
+    <div class="dropdown-container">
+        <select id="moodSelect">
+            <option value="">Select Mood</option>
+        </select>
+    </div>
+    <button onclick="createPoetry()">Generate Poetry</button>
+    <div id="timeline"></div>
+</div>
+
+<script src="https://freight.cargo.site/m/B2248982093210676684149074745420/script.js"></script>
+
+</body>
+</html>
